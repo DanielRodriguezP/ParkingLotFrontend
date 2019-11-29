@@ -1,46 +1,107 @@
 import React from "react";
+import useForm from "react-hook-form";
 import "../../style/components/cardRegister.css";
+import { userRegister } from "../api/user"; //Api axios
 
 const CardRegister = () => {
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data, e) => {
+    console.log(data);
+    if (data.password === data.userConfirmPass) {
+      //Data save with the name ot "input name", please confirm with backend is equally
+      userRegister(data);
+      alert("Registro exitoso");
+      e.target.reset();
+    } else {
+      //Error if password is diferent
+      alert("Por favor comprueba que la contraseña sea la misma");
+    }
+  };
+
+  console.log(errors);
+
   return (
     <div className="container">
       <div className="row">
         <div className="col-4">
-          <div className="content-register login-div">
-            <div class="log-register"></div>
-            <div class="title">User Register</div>
-            <div class="sub-title">Parking-lot</div>
-            <div class="field">
-              <div class="user">
-                <input type="text" class="user-input" placeholder="Name" />
-                <input type="text" class="user-input" placeholder="Last Name" />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="content-register login-div">
+              <div className="log-register"></div>
+              <div className="title">User Register</div>
+              <div className="sub-title">Parking-lot</div>
+              <div className="field">
+                <div className="user">
+                  <input
+                    type="text"
+                    className="user-input"
+                    placeholder="Nombre"
+                    name="name"
+                    ref={register}
+                    required
+                  />
+                  <input
+                    type="text"
+                    className="user-input"
+                    placeholder="Apellido"
+                    name="last_name"
+                    ref={register}
+                    required
+                  />
+                </div>
+                <div className="user">
+                  <input
+                    type="number"
+                    className="user-input"
+                    placeholder="Identificación"
+                    name="id"
+                    ref={register}
+                    required
+                  />
+                  <input
+                    type="email"
+                    className="user-input"
+                    placeholder="Correo"
+                    name="email"
+                    ref={register}
+                    required
+                  />
+                </div>
+                <div className="user">
+                  <input
+                    type="username"
+                    className="user-input"
+                    placeholder="Nombre de Usuario"
+                    name="user"
+                    ref={register}
+                    required
+                  />
+                </div>
+                <div className="pass">
+                  <input
+                    type="password"
+                    className="user-input"
+                    placeholder="Contraseña"
+                    name="password"
+                    ref={register}
+                    required
+                  />
+                  <input
+                    type="password"
+                    className="pass-input"
+                    placeholder="Confirma contrasea"
+                    name="userConfirmPass"
+                    ref={register}
+                    required
+                  />
+                </div>
               </div>
-              <div class="user">
-                <input type="text" class="user-input" placeholder="ID" />
-                <input type="email" class="user-input" placeholder="Email" />
-              </div>
-              <div class="user">
-                <input
-                  type="username"
-                  class="user-input"
-                  placeholder="Username"
-                />
-              </div>
-              <div class="pass">
-                <input
-                  type="password"
-                  class="user-input"
-                  placeholder="Password"
-                />
-                <input
-                  type="password"
-                  class="pass-input"
-                  placeholder="Confirm Password"
-                />
-              </div>
+              <input
+                type="submit"
+                value="REGISTRO"
+                className="register-button"
+              />
             </div>
-            <button class="register-button">REGISTER</button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
